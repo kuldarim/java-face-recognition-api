@@ -29,8 +29,7 @@ public class PictureController {
     }
 
     private String matToJSON(Mat mat) {
-        JsonObject jsonObject = new JsonObject();
-        if(mat.isContinuous()){
+        if (mat.isContinuous()) {
             int cols = mat.cols();
             int rows = mat.rows();
             int elemSize = (int) mat.elemSize();
@@ -39,6 +38,7 @@ public class PictureController {
 
             mat.get(0, 0, data);
 
+            JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("rows", mat.rows());
             jsonObject.addProperty("cols", mat.cols());
             jsonObject.addProperty("type", mat.type());
