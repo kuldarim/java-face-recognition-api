@@ -19,7 +19,7 @@ public class PictureController {
 
     /**
      *
-     * @return Base64 encoded returns Json representation of org.opencv.core.Mat
+     * @return returns Base64 encoded Json representation of org.opencv.core.Mat
      */
     @RequestMapping("/grayscale")
     public String grayscale() {
@@ -28,6 +28,12 @@ public class PictureController {
         return matToJSON(exampleGreyscaleMat);
     }
 
+    /**
+     * TODO add decode method in node js side
+     * Read more here http://answers.opencv.org/question/8873/best-way-to-store-a-mat-object-in-android/?answer=28608#post-id-28608
+     * @param mat
+     * @return
+     */
     private String matToJSON(Mat mat) {
         if (mat.isContinuous()) {
             int cols = mat.cols();
