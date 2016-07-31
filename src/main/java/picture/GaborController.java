@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GaborController {
 
-    @Autowired
-    MatService matService;
+  @Autowired
+  MatService matService;
 
-    @Autowired
-    GaborService gaborService;
+  @Autowired
+  GaborService gaborService;
 
-    @RequestMapping("/gabor")
-    public String gobor() {
-        Mat greyscaleImage = Highgui.imread("src/main/resources/example.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
-        Mat gabor = gaborService.calculateGaborMat(greyscaleImage);
-        
-        return matService.matToJSON(gabor);
-    }
+  @RequestMapping("/gabor")
+  public String gobor() {
+    Mat greyscaleImage = Highgui.imread("src/main/resources/example.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+    Mat gabor = gaborService.calculateGaborMat(greyscaleImage);
+
+    return matService.matToJSON(gabor);
+  }
 }

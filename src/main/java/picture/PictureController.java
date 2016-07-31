@@ -9,17 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PictureController {
 
-    @Autowired
-    MatService matService;
+  @Autowired
+  MatService matService;
 
-    /**
-     *
-     * @return returns Base64 encoded Json representation of org.opencv.core.Mat
-     */
-    @RequestMapping("/grayscale")
-    public String grayscale() {
-        Mat exampleGreyscaleMat = Highgui.imread("src/main/resources/example.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+  /**
+   * @return returns Base64 encoded Json representation of org.opencv.core.Mat
+   */
+  @RequestMapping("/grayscale")
+  public String grayscale() {
+    Mat exampleGreyscaleMat = Highgui.imread("src/main/resources/example.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
 
-        return matService.matToJSON(exampleGreyscaleMat);
-    }
+    return matService.matToJSON(exampleGreyscaleMat);
+  }
 }

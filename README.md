@@ -8,3 +8,4 @@
 ## Methods
 
 1. http://localhost:8080/grayscale converts example image to greyscale
+2. http://localhost:8080/gabor returns image gabor Mat
