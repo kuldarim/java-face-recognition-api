@@ -17,7 +17,7 @@ public class PictureController {
    */
   @RequestMapping("/grayscale")
   public String grayscale() {
-    Mat exampleGreyscaleMat = Highgui.imread("src/main/resources/example.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+    Mat exampleGreyscaleMat = Highgui.imread("src/main/resources/image.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
 
     return matService.matToJSON(exampleGreyscaleMat);
   }
