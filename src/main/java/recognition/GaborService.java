@@ -22,6 +22,26 @@ public class GaborService {
    * 4. calculate mean for each pixel for 3rd step list of matrixes
    */
 
+  public Double[][] calculateDistanceBetweenMatrixes(Double[][] matrixA, Double[][] matrixB) {
+    int cols = matrixA.length;
+    int rows = matrixA[0].length;
+
+    Double[][] distanceMat = new Double[cols][rows];
+
+    for (int col = 0; col < cols; col++) {
+
+      for (int row = 0; row < rows; row++) {
+
+        System.out.println(mean);
+        Double distance = matrixA[col][row] - matrixB[col][row];
+        distanceMat[col][row] = distance;
+      }
+    }
+
+
+    return distanceMat;
+  }
+
   public Double[][] calculateMeanForVarianceMats(ArrayList<Double[][]> list) {
     Double[][] temp = list.get(0);
     int cols = temp.length;
