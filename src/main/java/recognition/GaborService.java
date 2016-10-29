@@ -3,6 +3,7 @@ package recognition;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
+import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +22,15 @@ public class GaborService {
    * 4. calculate mean for each pixel for 3rd step list of matrixes
    */
 
-  public Mat createGaborVarianceMatForImage(Mat image) {
+  public Double[][] createGaborVarianceMatForImage(Mat image) {
     ArrayList<Mat> gabors = this.calculateGarborMats(image);
 
     Mat temp = gabors.get(0);
     int cols = temp.cols();
     int rows = temp.rows();
 
-    Mat varianceMat = new Mat(cols, rows, temp.type());
-
+    //Mat varianceMat = new Mat(cols, rows, temp.type());
+    Double[][] varianceMat = new Double[cols][rows];
 
     for (int col = 0; col < cols; col++) {
 
@@ -42,10 +43,10 @@ public class GaborService {
         }
 
         Double variance = this.variance(pixels);
-
-        varianceMat.put(row, col, variance);
+        System.out.println(variance);
+        varianceMat[col][row] = variance;
+        //varianceMat.put(row, col, variance);
       }
-
     }
 
     return varianceMat;
@@ -112,6 +113,8 @@ public class GaborService {
             // apply filters on my image. The result is stored in gabor
             Mat gabor = new Mat (image.width(), image.height(), CvType.CV_8UC1);
             Imgproc.filter2D(image, gabor, -1, kernel);
+
+   //         Highgui.imwrite("src/main/resources/gabor/test" + String.valueOf(theta) + "_" + String.valueOf(lambda) +".png", gabor);
 
             gabors.add(gabor);
         }
