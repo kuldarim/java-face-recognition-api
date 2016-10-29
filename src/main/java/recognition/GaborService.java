@@ -31,8 +31,6 @@ public class GaborService {
     for (int col = 0; col < cols; col++) {
 
       for (int row = 0; row < rows; row++) {
-
-        System.out.println(mean);
         Double distance = matrixA[col][row] - matrixB[col][row];
         distanceMat[col][row] = distance;
       }
