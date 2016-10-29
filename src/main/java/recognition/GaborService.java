@@ -1,4 +1,4 @@
-package picture;
+package recognition;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -12,9 +12,43 @@ import java.util.List;
 
 @Service
 public class GaborService {
+  /**
+   * Algorithm explained
+   *
+   * 1. calculated gabor samples for each image [Get 40 matrices]
+   * 2. calculate variance for each pixel in that matrix. [Get a matrix]
+   * 3. repeat same calculation for each person [person number * matrix]
+   * 4. calculate mean for each pixel for 3rd step list of matrixes
+   */
 
-  public void calculateVarianceForGaborImages() {
-    Math.d
+  public Mat createGaborVarianceMatForImage(Mat image) {
+    ArrayList<Mat> gabors = this.calculateGarborMats(image);
+
+    Mat temp = gabors.get(0);
+    int cols = temp.cols();
+    int rows = temp.rows();
+
+    Mat varianceMat = new Mat(cols, rows, temp.type());
+
+
+    for (int col = 0; col < cols; col++) {
+
+      for (int row = 0; row < rows; row++) {
+        ArrayList<Double> pixels = new ArrayList<>();
+
+        for (Mat gabor: gabors) {
+          Double pixelValue = gabor.get(row, col)[0];
+          pixels.add(pixelValue);
+        }
+
+        Double variance = this.variance(pixels);
+
+        varianceMat.put(row, col, variance);
+      }
+
+    }
+
+    return varianceMat;
 
   }
 
@@ -52,6 +86,7 @@ public class GaborService {
     ArrayList<Mat> gabors = new ArrayList<Mat>();
 
     //predefine parameters for Gabor kernel
+    //TODO check if these params are really good
     List<Double> thetas = Arrays.asList(0.0, 23.0, 45.0, 68.0, 90.0, 113.0, 135.0, 158.0);
     List<Double> lambdas = Arrays.asList(3.0, 6.0, 13.0, 28.0, 58.0);
     Size kSize = new Size(5, 5);
