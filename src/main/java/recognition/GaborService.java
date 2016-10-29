@@ -22,6 +22,32 @@ public class GaborService {
    * 4. calculate mean for each pixel for 3rd step list of matrixes
    */
 
+  public Double[][] calculateMeanForVarianceMats(ArrayList<Double[][]> list) {
+    Double[][] temp = list.get(0);
+    int cols = temp.length;
+    int rows = temp[0].length;
+
+    Double[][] meanMat = new Double[cols][rows];
+
+    for (int col = 0; col < cols; col++) {
+
+      for (int row = 0; row < rows; row++) {
+        ArrayList<Double> pixels = new ArrayList<>();
+
+        for (Double[][] doubleMat: list) {
+          Double pixelValue = doubleMat[row][col];
+          pixels.add(pixelValue);
+        }
+
+        Double mean = this.mean(pixels);
+        System.out.println(mean);
+        meanMat[col][row] = mean;
+      }
+    }
+
+    return meanMat;
+  }
+
   public Double[][] createGaborVarianceMatForImage(Mat image) {
     ArrayList<Mat> gabors = this.calculateGarborMats(image);
 
