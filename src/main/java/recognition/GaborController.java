@@ -15,6 +15,9 @@ public class GaborController {
   @Autowired
   GaborService gaborService;
 
+  @Autowired
+  FaceService faceService;
+
   @RequestMapping("/gabor")
   public String gobor() {
     Mat greyscaleImage = Highgui.imread("src/main/resources/image.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
@@ -23,13 +26,21 @@ public class GaborController {
     return matService.matToJSON(gabor);
   }
 
-  @RequestMapping("/test")
-  public String test() {
+  @RequestMapping("/variance")
+   public String variance() {
     Mat greyscaleImage = Highgui.imread("src/main/resources/image.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
     Double[][] varianceMat = gaborService.createGaborVarianceMatForImage(greyscaleImage);
 
     //Highgui.imwrite("src/main/resources/image_test.png", gabor);
 
     return varianceMat.toString();
+  }
+
+  @RequestMapping("/crop")
+  public String crop() {
+    Mat greyscaleImage = Highgui.imread("src/main/resources/faces/p4.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+    Mat cropped = faceService.cropFace(greyscaleImage, "subject01");
+
+    return matService.matToJSON(cropped);
   }
 }
