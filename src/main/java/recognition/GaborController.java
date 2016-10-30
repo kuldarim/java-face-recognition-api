@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 public class GaborController {
 
@@ -42,5 +44,33 @@ public class GaborController {
     Mat cropped = faceService.cropFace(greyscaleImage, "subject01");
 
     return matService.matToJSON(cropped);
+  }
+
+  @RequestMapping("/test")
+  public String test() {
+    ArrayList<Mat> originalImages = readImages("resized_", 6);
+
+    ArrayList<Double[][]> varianceMats = new ArrayList<>();
+
+    for (Mat original: originalImages) {
+      Double[][] variance = gaborService.createGaborVarianceMatForImage(original);
+      varianceMats.add(variance);
+    }
+
+    gaborService.calculateMeanForVarianceMats(varianceMats);
+
+
+    return "yey";
+  }
+
+  private ArrayList<Mat> readImages(String imageNamePrefix, int imageCount) {
+    ArrayList<Mat> images = new ArrayList<>();
+
+    for(int i = 0; i < imageCount; i++) {
+      Mat image = Highgui.imread("src/main/resources/resized/" + imageNamePrefix + i + ".jpg");
+      images.add(image);
+    }
+
+    return images;
   }
 }

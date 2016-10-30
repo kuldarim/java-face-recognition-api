@@ -53,12 +53,15 @@ public class GaborService {
         ArrayList<Double> pixels = new ArrayList<>();
 
         for (Double[][] doubleMat: list) {
-          Double pixelValue = doubleMat[row][col];
+          if (row > 599 || col > 599) {
+            System.out.println(row + " " + col);
+          }
+          Double pixelValue = doubleMat[col][row];
           pixels.add(pixelValue);
         }
-
+     //   System.out.println(pixels.size());
         Double mean = this.mean(pixels);
-        System.out.println(mean);
+        //System.out.println(mean);
         meanMat[col][row] = mean;
       }
     }
@@ -87,7 +90,7 @@ public class GaborService {
         }
 
         Double variance = this.variance(pixels);
-        System.out.println(variance);
+        //System.out.println(variance);
         varianceMat[col][row] = variance;
         //varianceMat.put(row, col, variance);
       }
