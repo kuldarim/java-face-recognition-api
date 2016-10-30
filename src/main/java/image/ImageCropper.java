@@ -1,4 +1,4 @@
-package cropper;
+package image;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
@@ -46,7 +46,7 @@ public class ImageCropper {
     return images;
   }
 
-  private static ArrayList<Mat> getCroppedFaces (CascadeClassifier faceDetector, Mat img) {
+  private static ArrayList<Mat> getCroppedFaces(CascadeClassifier faceDetector, Mat img) {
     MatOfRect faceDetections = new MatOfRect();
     faceDetector.detectMultiScale(img, faceDetections);
 
