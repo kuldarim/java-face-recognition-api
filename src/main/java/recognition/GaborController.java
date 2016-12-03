@@ -67,6 +67,27 @@ public class GaborController {
     return "printed";
   }
 
+  @RequestMapping("/do/everything")
+  public String doEverything() {
+    new File("src/main/resources/calculated").mkdir();
+    new File("src/main/resources/calculated/mean").mkdir();
+    new File("src/main/resources/calculated/mean/self").mkdir();
+    new File("src/main/resources/calculated/mean/others").mkdir();
+    new File("src/main/resources/calculated/result").mkdir();
+    new File("src/main/resources/calculated/variance").mkdir();
+
+    this.createVarianceMats();
+    this.createOthersVarianceMats();
+    this.createSelfVarianceMats();
+    this.createMeanOthers();
+    this.createMeanSelf();
+    this.distance();
+
+
+
+    return "done";
+  }
+
   @RequestMapping("/calculate/distance")
   public String distance() {
     Double[][] self = this.readMatFromFile("/result/self-mean.txt");
