@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 
 @RestController
@@ -63,6 +65,20 @@ public class GaborController {
     return "yey";
   }
 
+  @RequestMapping("/write")
+  public String write() {
+    Double[][] test = new Double[1][1];
+    test[0][0] = 1.1;
+    this.storeMatInFile("Test", test);
+    return "yey";
+  }
+
+  @RequestMapping("/read")
+  public String read() {
+    Double[][] mat = this.readMatFromFile("test");
+    return String.valueOf(mat[0][0]);
+  }
+
   private ArrayList<Mat> readImages(String imageNamePrefix, int imageCount) {
     ArrayList<Mat> images = new ArrayList<>();
 
@@ -72,5 +88,31 @@ public class GaborController {
     }
 
     return images;
+  }
+
+  private void storeMatInFile(String fileName, Double[][] mat) {
+    try(
+      FileOutputStream f = new FileOutputStream("src/main/resources/test.txt");
+      ObjectOutput s = new ObjectOutputStream(f)
+    ) {
+      s.writeObject(mat);
+    } catch (Exception ex) {
+      System.out.println(ex.toString());
+    } finally {
+
+    }
+  }
+
+  private Double[][] readMatFromFile(String fileName) {
+    try(FileInputStream in = new FileInputStream("src/main/resources/test.txt");
+        ObjectInputStream s = new ObjectInputStream(in)) {
+      Double[][] mat = (Double[][])s.readObject();
+      return mat;
+    } catch (Exception ex) {
+      System.out.println(ex.toString());
+    } finally {
+
+    }
+    return null;
   }
 }
