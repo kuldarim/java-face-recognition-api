@@ -50,7 +50,47 @@ public class GaborController {
   }
 
   @RequestMapping("/create/self/mean/mats")
-   public String createSelfMeanMats() {
+   public String createMeanSelf() {
+
+    Double[][] p1 = this.readMatFromFile("/mean/self/p1.txt");
+    Double[][] p2 = this.readMatFromFile("/mean/self/p2.txt");
+    Double[][] p3 = this.readMatFromFile("/mean/self/p3.txt");
+
+    ArrayList<Double[][]> self = new ArrayList<>();
+
+    self.add(p1);
+    self.add(p2);
+    self.add(p3);
+
+    Double[][] selfMean = gaborService.calculateMeanForVarianceMats(self);
+    System.out.println("self done");
+    this.storeMatInFile("/result/self-mean.txt", selfMean);
+
+    return "yey";
+  }
+
+  @RequestMapping("/create/others/mean/mats")
+  public String createMeanOthers() {
+
+    Double[][] p1 = this.readMatFromFile("/mean/others/p1p2.txt");
+    Double[][] p2 = this.readMatFromFile("/mean/others/p1p3.txt");
+    Double[][] p3 = this.readMatFromFile("/mean/others/p2p3.txt");
+
+    ArrayList<Double[][]> others = new ArrayList<>();
+
+    others.add(p1);
+    others.add(p2);
+    others.add(p3);
+
+    Double[][] othersMean = gaborService.calculateMeanForVarianceMats(others);
+    System.out.println("others done");
+    this.storeMatInFile("/result/others-mean.txt", othersMean);
+
+    return "yey";
+  }
+
+  @RequestMapping("/create/self/variance/mats")
+   public String createSelfVarianceMats() {
 
     ArrayList<Double[][]> varianceMatsP1 = this.readMatsByPerson("p1_");
     System.out.println("varianceMatsP1 done");
@@ -73,8 +113,8 @@ public class GaborController {
     return "yey";
   }
 
-  @RequestMapping("/create/others/mean/mats")
-  public String createOthersMeanMats() {
+  @RequestMapping("/create/others/variance/mats")
+  public String createOthersVarianceMats() {
     ArrayList<Double[][]> varianceMatsP1 = this.readMatsByPerson("p1_");
     ArrayList<Double[][]> varianceMatsP2 = this.readMatsByPerson("p2_");
     ArrayList<Double[][]> varianceMatsP3 = this.readMatsByPerson("p3_");
