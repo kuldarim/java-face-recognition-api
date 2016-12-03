@@ -49,6 +49,36 @@ public class GaborController {
     return matService.matToJSON(cropped);
   }
 
+  @RequestMapping("/print/self")
+   public String printSelf() {
+    Double[][] self = this.readMatFromFile("/result/self-mean.txt");
+
+    this.printMatToConsole(self);
+
+    return "printed";
+  }
+
+  @RequestMapping("/print/others")
+  public String printOthers() {
+    Double[][] self = this.readMatFromFile("/result/others-mean.txt");
+
+    this.printMatToConsole(self);
+
+    return "printed";
+  }
+
+  @RequestMapping("/calculate/distance")
+  public String distance() {
+    Double[][] self = this.readMatFromFile("/result/self-mean.txt");
+    Double[][] others = this.readMatFromFile("/result/others-mean.txt");
+
+    Double[][] distance = this.gaborService.calculateDistanceBetweenMatrixes(self,others);
+
+    this.printMatToConsole(distance);
+
+    return "calculated";
+  }
+
   @RequestMapping("/create/self/mean/mats")
    public String createMeanSelf() {
 
@@ -244,5 +274,14 @@ public class GaborController {
 
     }
     return null;
+  }
+
+  private void printMatToConsole(Double[][] mat) {
+    for(Double[] row: mat) {
+      for(Double cell: row) {
+        System.out.print(String.valueOf(cell) + " ");
+      }
+      System.out.println();
+    }
   }
 }
