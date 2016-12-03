@@ -1,4 +1,4 @@
-//comment these out to be able to run spring boot application
+////comment these out to be able to run spring boot application
 //package image;
 //
 //import org.opencv.core.Mat;
@@ -21,12 +21,13 @@
 //    try {
 //      CascadeClassifier faceDetector = new CascadeClassifier("src/main/resources/haars/haarcascade_frontalface_default.xml");
 //
-//      ArrayList<Mat> images = readImages("image", 6);
+//      ArrayList<Mat> images = readImages("person3_", 6);
 //
 //      int index = 0;
 //      for (Mat image: images) {
 //        ArrayList<Mat> croppedFaces = getCroppedFaces(faceDetector, image);
 //        writeImagesToFile(croppedFaces, String.valueOf(index));
+//        System.out.println("cropped");
 //        index++;
 //      }
 //
@@ -40,7 +41,7 @@
 //    ArrayList<Mat> images = new ArrayList<>();
 //
 //    for(int i = 1; i <= imageCount; i++) {
-//      Mat image = Highgui.imread("src/main/resources/my-face/" + imageNamePrefix + i + ".jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+//      Mat image = Highgui.imread("src/main/resources/database/p3/" + imageNamePrefix + i + ".jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
 //      images.add(image);
 //    }
 //

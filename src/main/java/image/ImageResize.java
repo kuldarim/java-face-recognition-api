@@ -1,4 +1,4 @@
-//comment these out to be able to run spring boot application
+////comment these out to be able to run spring boot application
 //package image;
 //
 //import org.opencv.core.Mat;
@@ -19,7 +19,7 @@
 //  public static void main( String[] args ) {
 //    try {
 //
-//      ArrayList<Mat> images = readImages("cropped", 6);
+//      ArrayList<Mat> images = readImages("person3_", 6);
 //      ArrayList<Mat> resized = resizeImages(images);
 //      writeImagesToFile(resized, "resized");
 //
@@ -44,7 +44,7 @@
 //    ArrayList<Mat> images = new ArrayList<>();
 //
 //    for(int i = 1; i <= imageCount; i++) {
-//      Mat image = Highgui.imread("src/main/resources/cropped/" + imageNamePrefix + i + ".jpg");
+//      Mat image = Highgui.imread("src/main/resources/database/p3/cropped/" + imageNamePrefix + i + ".jpg");
 //      images.add(image);
 //    }
 //

@@ -48,7 +48,7 @@ public class GaborController {
 
   @RequestMapping("/test")
   public String test() {
-    ArrayList<Mat> originalImages = readImages("resized_", 6);
+    ArrayList<Mat> originalImages = readImages("p1_", 6);
 
     ArrayList<Double[][]> varianceMats = new ArrayList<>();
 
@@ -66,8 +66,8 @@ public class GaborController {
   private ArrayList<Mat> readImages(String imageNamePrefix, int imageCount) {
     ArrayList<Mat> images = new ArrayList<>();
 
-    for(int i = 0; i < imageCount; i++) {
-      Mat image = Highgui.imread("src/main/resources/resized/" + imageNamePrefix + i + ".jpg");
+    for(int i = 1; i <= imageCount; i++) {
+      Mat image = Highgui.imread("src/main/resources/database/p1/resized/" + imageNamePrefix + i + ".jpg");
       images.add(image);
     }
 
