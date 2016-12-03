@@ -133,15 +133,23 @@ public class GaborService {
 
     ArrayList<Mat> gabors = new ArrayList<Mat>();
 
+    int pos_kernel_size=21;
+    int pos_sigma= 5;
+    int pos_lm = 50;
+    int pos_th = 0;
+    int pos_gamma= 0;
+    int pos_psi = 90;
+
+    int kernel_size=(pos_kernel_size-1)/2;
+
     //predefine parameters for Gabor kernel
     //TODO check if these params are really good
-    List<Double> thetas = Arrays.asList(0.0, 23.0, 45.0, 68.0, 90.0, 113.0, 135.0, 158.0);
-    List<Double> lambdas = Arrays.asList(3.0, 6.0, 13.0, 28.0, 58.0);
-    Size kSize = new Size(5, 5);
-
-    double sigma = 20;
-    double gamma = 0.5;
-    double psi =  0;
+    List<Double> thetas = Arrays.asList(2.0, 23.0, 45.0, 68.0, 90.0, 113.0, 135.0, 158.0);
+    List<Double> lambdas = Arrays.asList(4.0, 6.0, 13.0, 28.0, 58.0);
+    Size kSize = new Size(kernel_size, kernel_size);
+    double sigma = pos_sigma;
+    double gamma = 0.5+pos_lm/100.0;
+    double psi = pos_psi*Math.PI / 180;
 
     for (Double theta: thetas) {
         for (Double lambda: lambdas) {
@@ -161,7 +169,7 @@ public class GaborService {
             Mat gabor = new Mat (image.width(), image.height(), CvType.CV_8UC1);
             Imgproc.filter2D(image, gabor, -1, kernel);
 
-   //         Highgui.imwrite("src/main/resources/gabor/test" + String.valueOf(theta) + "_" + String.valueOf(lambda) +".png", gabor);
+            Highgui.imwrite("src/main/resources/gabor/test" + String.valueOf(theta) + "_" + String.valueOf(lambda) +".png", gabor);
 
             gabors.add(gabor);
         }

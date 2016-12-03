@@ -25,10 +25,10 @@ public class GaborController {
 
   @RequestMapping("/gabor")
   public String gobor() {
-    Mat greyscaleImage = Highgui.imread("src/main/resources/image.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
-    Mat gabor = gaborService.calculateGaborMat(greyscaleImage);
+    Mat greyscaleImage = Highgui.imread("src/main/resources/database/p1/resized/p1_1.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+    gaborService.calculateGarborMats(greyscaleImage);
 
-    return matService.matToJSON(gabor);
+    return "gabor calculated " + String.valueOf(Math.random());
   }
 
   @RequestMapping("/variance")
@@ -90,12 +90,12 @@ public class GaborController {
 
   @RequestMapping("/calculate/distance")
   public String distance() {
-    Double[][] self = this.readMatFromFile("/result/self-mean.txt");
-    Double[][] others = this.readMatFromFile("/result/others-mean.txt");
+    Double[][] self = this.readMatFromFile("result/self-mean.txt");
+    Double[][] others = this.readMatFromFile("result/others-mean.txt");
 
     Double[][] distance = this.gaborService.calculateDistanceBetweenMatrixes(self,others);
 
-    this.printMatToConsole(distance);
+    this.storeMatInFile("/distance/self-others.txt", distance);
 
     return "calculated";
   }
