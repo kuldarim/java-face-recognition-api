@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.rmi.server.ExportException;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 @RestController
 public class GaborController {
@@ -74,27 +75,30 @@ public class GaborController {
 
   @RequestMapping("/create/others/mean/mats")
   public String createOthersMeanMats() {
-    ArrayList<Mat> originalImagesP1 = readImages("p1/resized/p1_", 6);
-    ArrayList<Mat> originalImagesP2 = readImages("p2/resized/p2_", 6);
-    ArrayList<Mat> originalImagesP3 = readImages("p3/resized/p3_", 6);
+    ArrayList<Double[][]> varianceMatsP1 = this.readMatsByPerson("p1_");
+    ArrayList<Double[][]> varianceMatsP2 = this.readMatsByPerson("p2_");
+    ArrayList<Double[][]> varianceMatsP3 = this.readMatsByPerson("p3_");
 
-    ArrayList<Double[][]> varianceMatsP1 = this.getVarianceMatsForImages(originalImagesP1);
-    System.out.println("varianceMatsP1 done");
-    Double[][] meanP1 = gaborService.calculateMeanForVarianceMats(varianceMatsP1);
-    System.out.println("meanP1 done");
-    this.storeMatInFile("meanP1.txt", meanP1);
+    ArrayList<Double[][]> varianceMatsP1P2 = new ArrayList<>();
+    varianceMatsP1P2.addAll(varianceMatsP1);
+    varianceMatsP1P2.addAll(varianceMatsP2);
+    Double[][] meanP1P2 = gaborService.calculateMeanForVarianceMats(varianceMatsP1P2);
+    System.out.println("meanP1P2 done");
+    this.storeMatInFile("/mean/others/p1p2.txt", meanP1P2);
 
-    ArrayList<Double[][]> varianceMatsP2 = this.getVarianceMatsForImages(originalImagesP2);
-    System.out.println("varianceMatsP2 done");
-    Double[][] meanP2 = gaborService.calculateMeanForVarianceMats(varianceMatsP2);
-    System.out.println("meanP2 done");
-    this.storeMatInFile("meanP2.txt", meanP2);
+    ArrayList<Double[][]> varianceMatsP1P3 = new ArrayList<>();
+    varianceMatsP1P3.addAll(varianceMatsP1);
+    varianceMatsP1P3.addAll(varianceMatsP3);
+    Double[][] meanP1P3 = gaborService.calculateMeanForVarianceMats(varianceMatsP1P3);
+    System.out.println("meanP1P3 done");
+    this.storeMatInFile("/mean/others/p1p3.txt", meanP1P3);
 
-    ArrayList<Double[][]> varianceMatsP3 = this.getVarianceMatsForImages(originalImagesP3);
-    System.out.println("varianceMatsP3 done");
-    Double[][] meanP3 = gaborService.calculateMeanForVarianceMats(varianceMatsP3);
-    System.out.println("meanP3 done");
-    this.storeMatInFile("meanP3.txt", meanP3);
+    ArrayList<Double[][]> varianceMatsP2P3 = new ArrayList<>();
+    varianceMatsP2P3.addAll(varianceMatsP2);
+    varianceMatsP2P3.addAll(varianceMatsP3);
+    Double[][] meanP2P3 = gaborService.calculateMeanForVarianceMats(varianceMatsP2P3);
+    System.out.println("meanP2P3 done");
+    this.storeMatInFile("/mean/others/p2p3.txt", meanP2P3);
 
     return "yey";
   }
