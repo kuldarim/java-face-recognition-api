@@ -1,5 +1,7 @@
 package recognition;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,24 @@ public class GaborController {
 
   @Autowired
   FaceService faceService;
+
+  @RequestMapping("/distance")
+  public String distance() {
+    Double[][] distance = this.readMatFromFile("/distance/self-others.txt");
+
+    JsonArray parentJsonArray = new JsonArray();
+
+    for (Double[] row: distance) {
+      JsonArray childJsonArray = new JsonArray();
+      for (Double cell: row) {
+        childJsonArray.add(cell);
+      }
+      parentJsonArray.add(childJsonArray);
+    }
+
+    Gson gson = new Gson();
+    return gson.toJson(parentJsonArray);
+  }
 
   @RequestMapping("/gabor")
   public String gobor() {
@@ -89,7 +109,7 @@ public class GaborController {
   }
 
   @RequestMapping("/calculate/distance")
-  public String distance() {
+  public String calculateDistance() {
     Double[][] self = this.readMatFromFile("result/self-mean.txt");
     Double[][] others = this.readMatFromFile("result/others-mean.txt");
 

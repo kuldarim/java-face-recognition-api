@@ -133,11 +133,10 @@ public class GaborService {
 
     ArrayList<Mat> gabors = new ArrayList<Mat>();
 
+    // based on http://stackoverflow.com/a/26974283/1883645
     int pos_kernel_size=21;
     int pos_sigma= 5;
     int pos_lm = 50;
-    int pos_th = 0;
-    int pos_gamma= 0;
     int pos_psi = 90;
 
     int kernel_size=(pos_kernel_size-1)/2;
@@ -163,6 +162,9 @@ public class GaborService {
            * psi – Phase offset.
            * ktype – Type of filter coefficients. It can be CV_32F or CV_64F .
            */
+        // yet another solution, uncoment if wanted to use. not sure which is creating better results
+           // double the = theta * Math.PI / 180;
+           // double lmbd = lambda + pos_lm / 100.0;
             // the filters kernel
             Mat kernel = Imgproc.getGaborKernel(kSize, sigma, theta, lambda, gamma, psi, CvType.CV_32F);
             // apply filters on my image. The result is stored in gabor
