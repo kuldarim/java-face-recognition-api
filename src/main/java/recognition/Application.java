@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"image", "recognition"})
+@ComponentScan({"image", "recognition", "config"})
 @EnableAutoConfiguration
 public class Application {
 

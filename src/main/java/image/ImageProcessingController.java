@@ -1,7 +1,6 @@
 package image;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+import config.CONFIG;
 import org.opencv.core.Mat;
 import org.opencv.objdetect.CascadeClassifier;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class ImageProcessingController {
     try {
       CascadeClassifier faceDetector = new CascadeClassifier("src/main/resources/haars/haarcascade_frontalface_default.xml");
 
-      ArrayList<Mat> images = this.fileService.readImages(person + "/original", person + "_", 6);
+      ArrayList<Mat> images = this.fileService.readImages(person + "/original", person + "_", CONFIG.NUMBER_OF_IMAGES);
       ArrayList<Mat> croppedFaces = new ArrayList<>();
 
       int i = 1;
@@ -54,7 +53,7 @@ public class ImageProcessingController {
   @RequestMapping("/resize/{person}")
   public String resize(@PathVariable(value="person") String person) {
     try {
-      ArrayList<Mat> images = this.fileService.readImages(person + "/cropped", person + "_", 6);
+      ArrayList<Mat> images = this.fileService.readImages(person + "/cropped", person + "_", CONFIG.NUMBER_OF_IMAGES);
       ArrayList<Mat> resized = this.imageResizeService.resizeImages(images);
       this.fileService.writeImagesToFile(resized, person + "/resized", person + "_");
       return "yey";

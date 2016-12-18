@@ -2,6 +2,7 @@ package recognition;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import config.CONFIG;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,9 +203,9 @@ public class GaborController {
 
   @RequestMapping("/create/variance/mats")
   public String createVarianceMats() {
-    ArrayList<Mat> originalImagesP1 = readImages("p1/resized/p1_", 6);
-    ArrayList<Mat> originalImagesP2 = readImages("p2/resized/p2_", 6);
-    ArrayList<Mat> originalImagesP3 = readImages("p3/resized/p3_", 6);
+    ArrayList<Mat> originalImagesP1 = readImages("p1/resized/p1_", CONFIG.NUMBER_OF_IMAGES);
+    ArrayList<Mat> originalImagesP2 = readImages("p2/resized/p2_", CONFIG.NUMBER_OF_IMAGES);
+    ArrayList<Mat> originalImagesP3 = readImages("p3/resized/p3_", CONFIG.NUMBER_OF_IMAGES);
 
     System.out.println("varianceMatsP1 started");
     this.storeVarianceMatsForImages(originalImagesP1, "variance/p1_");
@@ -282,7 +283,7 @@ public class GaborController {
   private ArrayList<Double[][]> readMatsByPerson(String person) {
     ArrayList<Double[][]> varianceMats = new ArrayList<>();
 
-    for (int i = 1; i<=6; i++) {
+    for (int i = 1; i<= CONFIG.NUMBER_OF_IMAGES; i++) {
       Double[][] mat = this.readMatFromFile("variance/" + person + i + ".txt");
       varianceMats.add(mat);
     }
