@@ -48,16 +48,6 @@ public class GaborController {
     return "gabor calculated " + String.valueOf(Math.random());
   }
 
-  @RequestMapping("/variance")
-   public String variance() {
-    Mat greyscaleImage = Highgui.imread("src/main/resources/image.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
-    Double[][] varianceMat = gaborService.createGaborVarianceMatForImage(greyscaleImage);
-
-    //Highgui.imwrite("src/main/resources/image_test.png", gabor);
-
-    return varianceMat.toString();
-  }
-
   @RequestMapping("/print/self")
    public String printSelf() {
     Double[][] self = this.fileService.readMatFromFile("/result/self-mean.txt");
