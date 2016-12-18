@@ -95,15 +95,14 @@ public class GaborController {
     new File("src/main/resources/calculated/mean/others").mkdir();
     new File("src/main/resources/calculated/result").mkdir();
     new File("src/main/resources/calculated/variance").mkdir();
+    new File("src/main/resources/calculated/distance").mkdir();
 
     this.createVarianceMats();
     this.createOthersVarianceMats();
     this.createSelfVarianceMats();
     this.createMeanOthers();
     this.createMeanSelf();
-    this.distance();
-
-
+    this.calculateDistance();
 
     return "done";
   }
