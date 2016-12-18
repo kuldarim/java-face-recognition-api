@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 @RestController
 public class GaborController {
@@ -21,9 +19,6 @@ public class GaborController {
 
   @Autowired
   GaborService gaborService;
-
-  @Autowired
-  FaceService faceService;
 
   @RequestMapping("/distance")
   public String distance() {
@@ -59,14 +54,6 @@ public class GaborController {
     //Highgui.imwrite("src/main/resources/image_test.png", gabor);
 
     return varianceMat.toString();
-  }
-
-  @RequestMapping("/crop")
-  public String crop() {
-    Mat greyscaleImage = Highgui.imread("src/main/resources/faces/p4.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
-    Mat cropped = faceService.cropFace(greyscaleImage, "subject01");
-
-    return matService.matToJSON(cropped);
   }
 
   @RequestMapping("/print/self")
