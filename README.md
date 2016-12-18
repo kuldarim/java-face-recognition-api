@@ -12,3 +12,4 @@
 3. http://localhost:8080/do/everything does all the stuff for calculation
 4. http://localhost:8080/gabor test the gabor parameters
 5. http://localhost:8080/distance returns mat which is used for genetic algorithm
+6. http://localhost:8080/euclidean calculate euclidean distance between two test images

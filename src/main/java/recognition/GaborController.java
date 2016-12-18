@@ -3,6 +3,7 @@ package recognition;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import image.FileService;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,17 @@ public class GaborController {
 
     Gson gson = new Gson();
     return gson.toJson(parentJsonArray);
+  }
+
+
+
+  @RequestMapping("/euclidean")
+  public String euclidean() {
+    Mat image1 = Highgui.imread("src/main/resources/database/p1/original/p1_1.jpg");
+    Mat image2 = Highgui.imread("src/main/resources/database/p1/original/p1_2.jpg");
+
+    //calculate the distance between matrices
+    return String.valueOf(Core.norm(image1, image2, Core.NORM_L2));
   }
 
   @RequestMapping("/gabor")
