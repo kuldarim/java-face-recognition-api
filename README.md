@@ -10,3 +10,4 @@
 1. http://localhost:8080/crop/person crops face from image, where person is p*
 2. http://localhost:8080/resize/person resizes all persons images where person is p*
 3. http://localhost:8080/do/everything does all the stuff for calculation
+3. http://localhost:8080/gabor test the gabor parameters
