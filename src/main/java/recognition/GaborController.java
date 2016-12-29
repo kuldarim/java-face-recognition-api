@@ -2,7 +2,9 @@ package recognition;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import config.CONFIG;
 import image.FileService;
+import image.Person;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -27,7 +31,7 @@ public class GaborController {
   FileService fileService;
 
   @RequestMapping("/recognise")
-  public String resize(@RequestBody String p) {
+  public Map<String, String> resize(@RequestBody String p) {
     System.out.println(p);
 
     String fileName = p.replaceAll("resized-ui", "net");
@@ -48,27 +52,51 @@ public class GaborController {
       for (File directory: personDirectories) {
 
         String directoryName = directory.getName();
-
+        boolean mathched = false;
         if (!directoryName.equalsIgnoreCase(".DS_Store")) {
           File[] personPhotos = new File(path + "/" + directoryName + "/net").listFiles();
 
+          Double sum = 0.0;
+
           for (File photo: personPhotos) {
             if (!photo.getName().equalsIgnoreCase(".DS_Store")) {
-              Mat comparatorVector = Highgui.imread(photo.getPath().toString());
+              if (photo.getPath().toString().equalsIgnoreCase(p)) {
+                mathched = true;
+              } else {
+                Mat comparatorVector = Highgui.imread(photo.getPath().toString());
+                Double norm = Core.norm(vectorToCompare, comparatorVector, Core.NORM_L2);
+                System.out.println(photo.getPath().toString() + " " + norm);
+                sum += norm;
+              }
 
-              Double norm = Core.norm(vectorToCompare, comparatorVector, Core.NORM_L2);
-
-              System.out.println(photo.getPath().toString() + " " + norm);
             }
           }
+
+          norms.add(sum / (mathched ? CONFIG.NUMBER_OF_PERSONS - 1 : CONFIG.NUMBER_OF_PERSONS));
         }
       }
+
+      int index = 0;
+      int smallest = 0;
+      for (Double norm: norms) {
+        System.out.println("yey: " + norm);
+        if (norms.get(smallest) > norm) {
+          smallest = index;
+        }
+        index++;
+      }
+
+
+      Map<String, String> data = new HashMap<>();
+      data.put("person", String.valueOf("p" + (smallest + 1)));
+
+      return data;
 
     } catch (Exception ex) {
       ex.printStackTrace();
     }
 
-    return "yey";
+    return null;
   }
 
   @RequestMapping("/store")
