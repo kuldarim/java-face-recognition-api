@@ -2,10 +2,7 @@ package recognition;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import config.CONFIG;
 import image.FileService;
-import image.Image;
-import image.Person;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -14,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RestController
@@ -34,16 +27,46 @@ public class GaborController {
   FileService fileService;
 
   @RequestMapping("/recognise")
-  public String resize(@RequestBody String path) {
-    System.out.println(path);
+  public String resize(@RequestBody String p) {
+    System.out.println(p);
 
-    String fileName = path.replaceAll("resized-ui", "original");
+    String fileName = p.replaceAll("resized-ui", "net");
+    String path = "src/main/resources/database";
 
-    // read stored net
-    // create matrices for that net for each image
-    // compare those matrices calculating the distance
+    Mat vectorToCompare = Highgui.imread(fileName);
 
-    // return name of the greatest fit.
+    ArrayList<Double> norms = new ArrayList<>();
+
+    // Sum all norms for each person
+    // Just dont add the same picture norm, because it will be 0
+    // Calculate vidurkis of each person and return lowest norm.
+    // Should divide by 5 or 6 depending if the person is the same or different.
+
+    try {
+      File[] personDirectories = new File(path).listFiles();
+
+      for (File directory: personDirectories) {
+
+        String directoryName = directory.getName();
+
+        if (!directoryName.equalsIgnoreCase(".DS_Store")) {
+          File[] personPhotos = new File(path + "/" + directoryName + "/net").listFiles();
+
+          for (File photo: personPhotos) {
+            if (!photo.getName().equalsIgnoreCase(".DS_Store")) {
+              Mat comparatorVector = Highgui.imread(photo.getPath().toString());
+
+              Double norm = Core.norm(vectorToCompare, comparatorVector, Core.NORM_L2);
+
+              System.out.println(photo.getPath().toString() + " " + norm);
+            }
+          }
+        }
+      }
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
 
     return "yey";
   }
