@@ -29,6 +29,21 @@ public class GaborController {
   public String resize(@RequestBody String path) {
     System.out.println(path);
 
+    String fileName = path.replaceAll("resized-ui", "original");
+
+    // read stored net
+    // create matrices for that net for each image
+    // compare those matrices calculating the distance
+
+    // return name of the greatest fit.
+
+    return "yey";
+  }
+
+  @RequestMapping("/store")
+  public String store(@RequestBody String object) {
+    System.out.println(object);
+
     return "yey";
   }
 
@@ -49,8 +64,6 @@ public class GaborController {
     Gson gson = new Gson();
     return gson.toJson(parentJsonArray);
   }
-
-
 
   @RequestMapping("/euclidean")
   public String euclidean() {
