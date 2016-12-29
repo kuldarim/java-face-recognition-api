@@ -66,6 +66,20 @@ public class FileService {
     }
   }
 
+  public void storeMatFile(String fileName, Double[][] mat) {
+    try(
+      FileOutputStream f = new FileOutputStream("src/main/resources/database/" + fileName);
+      ObjectOutput s = new ObjectOutputStream(f)
+    ) {
+      s.writeObject(mat);
+      System.out.println(fileName + " stored succesfully!");
+    } catch (Exception ex) {
+      System.out.println(ex.toString());
+    } finally {
+
+    }
+  }
+
   public void storeNetInFile(ArrayList<String> list) {
     try(
       FileOutputStream f = new FileOutputStream("src/main/resources/calculated/result/net.txt");

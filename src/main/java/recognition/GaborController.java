@@ -4,13 +4,21 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import config.CONFIG;
 import image.FileService;
+import image.Image;
+import image.Person;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -45,9 +53,55 @@ public class GaborController {
 
     this.fileService.storeNetInFile(net);
 
+    new File("src/main/resources/database/p1/net").mkdir();
+    new File("src/main/resources/database/p2/net").mkdir();
+    new File("src/main/resources/database/p3/net").mkdir();
 
-    for (String a : this.fileService.readNetFromFile()) {
-      System.out.println(a);
+    String path = "src/main/resources/database";
+
+    try {
+
+      File[] personDirectories = new File(path).listFiles();
+
+
+      for (File directory: personDirectories) {
+
+        String directoryName = directory.getName();
+
+        if (!directoryName.equalsIgnoreCase(".DS_Store")) {
+          File[] personPhotos = new File(path + "/" + directoryName + "/resized").listFiles();
+
+          for (File photo: personPhotos) {
+            if (!photo.getName().equalsIgnoreCase(".DS_Store")) {
+              Mat image = Highgui.imread(photo.getPath().toString());
+              System.out.println(photo.getPath().toString());
+              Mat vector = new Mat(1, net.size() - 1, CvType.CV_8UC1);
+              int i = 0;
+              for (String coordinatesString : net) {
+                String[] coordinates = coordinatesString.split("-");
+                int x = Integer.valueOf(coordinates[0]);
+                int y = Integer.valueOf(coordinates[1]);
+
+                double[] value = image.get(x, y);
+                System.out.println(x + " " + y);
+                System.out.println(i + " " + value[0]);
+                vector.put(0, i, value[0]);
+                i++;
+              }
+
+              String vectorPath = photo.getPath().toString().replaceAll("resized", "net");
+
+              System.out.println(vectorPath);
+
+              Highgui.imwrite( vectorPath, vector);
+            }
+          }
+        }
+
+      }
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
 
     return "yey";
