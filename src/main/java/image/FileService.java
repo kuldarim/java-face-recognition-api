@@ -66,6 +66,33 @@ public class FileService {
     }
   }
 
+  public void storeNetInFile(ArrayList<String> list) {
+    try(
+      FileOutputStream f = new FileOutputStream("src/main/resources/calculated/result/net.txt");
+      ObjectOutput s = new ObjectOutputStream(f)
+    ) {
+      s.writeObject(list);
+      System.out.println("net stored succesfully!");
+    } catch (Exception ex) {
+      System.out.println(ex.toString());
+    } finally {
+
+    }
+  }
+
+  public ArrayList<String>  readNetFromFile() {
+    try(FileInputStream in = new FileInputStream("src/main/resources/calculated/result/net.txt");
+        ObjectInputStream s = new ObjectInputStream(in)) {
+      ArrayList<String>  list = (ArrayList<String> )s.readObject();
+      return list;
+    } catch (Exception ex) {
+      System.out.println(ex.toString());
+    } finally {
+
+    }
+    return null;
+  }
+
   public void createCalculatedDirectories() {
     new File("src/main/resources/calculated").mkdir();
     new File("src/main/resources/calculated/mean").mkdir();

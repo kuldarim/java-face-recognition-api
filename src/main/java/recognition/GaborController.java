@@ -41,8 +41,14 @@ public class GaborController {
   }
 
   @RequestMapping("/store")
-  public String store(@RequestBody String object) {
-    System.out.println(object);
+  public String store(@RequestBody ArrayList<String> net) {
+
+    this.fileService.storeNetInFile(net);
+
+
+    for (String a : this.fileService.readNetFromFile()) {
+      System.out.println(a);
+    }
 
     return "yey";
   }
