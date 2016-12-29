@@ -22,4 +22,16 @@ public class ImageResizeService {
 
     return resized;
   }
+
+  public ArrayList<Mat> resizeImagesForUi(ArrayList<Mat> images) {
+    ArrayList<Mat> resized = new ArrayList<>();
+
+    for (Mat image: images) {
+      Mat resizedImage = new Mat(image.rows(), image.cols(), image.type());
+      Imgproc.resize(image, resizedImage, new Size(CONFIG.UI_CROPPED_WIDTH, CONFIG.UI_CROPPED_HEIGTH));
+      resized.add(resizedImage);
+    }
+
+    return resized;
+  }
 }

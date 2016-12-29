@@ -62,4 +62,17 @@ public class ImageProcessingController {
       return e.getMessage();
     }
   }
+
+  @RequestMapping("/resize/for-ui/{person}")
+  public String resizeForUi(@PathVariable(value="person") String person) {
+    try {
+      ArrayList<Mat> images = this.fileService.readImagesTrueColor(person + "/original", person + "_", CONFIG.NUMBER_OF_IMAGES);
+      ArrayList<Mat> resized = this.imageResizeService.resizeImagesForUi(images);
+      this.fileService.writeImagesToFile(resized, person + "/resized-ui", person + "_");
+      return "yey";
+    } catch (Exception e) {
+      System.out.println("Error: " + e.getMessage());
+      return e.getMessage();
+    }
+  }
 }

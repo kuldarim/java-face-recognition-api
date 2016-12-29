@@ -37,6 +37,21 @@ public class FileService {
     return images;
   }
 
+  public ArrayList<Mat> readImagesTrueColor(String folder, String imageNamePrefix, int imageCount) {
+    ArrayList<Mat> images = new ArrayList<>();
+    System.out.println("@readImages reading images from src/main/resources/database/"
+      + folder + "/" + imageNamePrefix + "index" + ".jpg");
+
+    for(int i = 1; i <= imageCount; i++) {
+      Mat image = Highgui.imread("src/main/resources/database/" + folder + "/" + imageNamePrefix + i + ".jpg");
+      images.add(image);
+    }
+
+    System.out.println("@readImages read images " + images.size());
+
+    return images;
+  }
+
   public void storeMatInFile(String fileName, Double[][] mat) {
     try(
       FileOutputStream f = new FileOutputStream("src/main/resources/calculated/" + fileName);
