@@ -2,13 +2,15 @@ package recognition;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import config.CONFIG;
 import image.FileService;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 
 @RestController
@@ -22,6 +24,13 @@ public class GaborController {
 
   @Autowired
   FileService fileService;
+
+  @RequestMapping("/recognise")
+  public String resize(@RequestBody String path) {
+    System.out.println(path);
+
+    return "yey";
+  }
 
   @RequestMapping("/distance")
   public String distance() {
