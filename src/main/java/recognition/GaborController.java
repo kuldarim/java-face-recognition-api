@@ -104,9 +104,10 @@ public class GaborController {
 
     this.fileService.storeNetInFile(net);
 
-    new File("src/main/resources/database/p1/net").mkdir();
-    new File("src/main/resources/database/p2/net").mkdir();
-    new File("src/main/resources/database/p3/net").mkdir();
+    for (int i = 1; i <= CONFIG.NUMBER_OF_PERSONS; i++) {
+      String person = "p" + i;
+      new File("src/main/resources/database/" + person + "/net").mkdir();
+    }
 
     String path = "src/main/resources/database";
 

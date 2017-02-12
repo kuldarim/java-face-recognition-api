@@ -13,10 +13,10 @@ public class FileService {
 
   public void writeImagesToFile(ArrayList<Mat> images, String folder, String prefix) {
     System.out.println("@writeImagesToFile writing " + images.size() + " to "
-      + "src/main/resources/" + folder + "/"+ prefix + "index" + ".jpg");
+      + "src/main/resources/" + folder + "/"+ prefix + "index" + ".png");
     int index = 1;
     for (Mat image: images) {
-      Highgui.imwrite("src/main/resources/database/" + folder + "/"+ prefix + index + ".jpg", image);
+      Highgui.imwrite("src/main/resources/database/" + folder + "/"+ prefix + index + ".png", image);
       index++;
     }
   }
@@ -24,10 +24,10 @@ public class FileService {
   public ArrayList<Mat> readImages(String folder, String imageNamePrefix, int imageCount) {
     ArrayList<Mat> images = new ArrayList<>();
     System.out.println("@readImages reading images from src/main/resources/database/"
-      + folder + "/" + imageNamePrefix + "index" + ".jpg");
+      + folder + "/" + imageNamePrefix + "index" + ".png");
 
     for(int i = 1; i <= imageCount; i++) {
-      Mat image = Highgui.imread("src/main/resources/database/" + folder + "/" + imageNamePrefix + i + ".jpg",
+      Mat image = Highgui.imread("src/main/resources/database/" + folder + "/" + imageNamePrefix + i + ".png",
         Highgui.CV_LOAD_IMAGE_GRAYSCALE);
       images.add(image);
     }
@@ -40,10 +40,10 @@ public class FileService {
   public ArrayList<Mat> readImagesTrueColor(String folder, String imageNamePrefix, int imageCount) {
     ArrayList<Mat> images = new ArrayList<>();
     System.out.println("@readImages reading images from src/main/resources/database/"
-      + folder + "/" + imageNamePrefix + "index" + ".jpg");
+      + folder + "/" + imageNamePrefix + "index" + ".png");
 
     for(int i = 1; i <= imageCount; i++) {
-      Mat image = Highgui.imread("src/main/resources/database/" + folder + "/" + imageNamePrefix + i + ".jpg");
+      Mat image = Highgui.imread("src/main/resources/database/" + folder + "/" + imageNamePrefix + i + ".png");
       images.add(image);
     }
 
