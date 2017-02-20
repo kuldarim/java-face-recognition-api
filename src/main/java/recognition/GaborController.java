@@ -39,6 +39,7 @@ public class GaborController {
 
     Mat vectorToCompare = Highgui.imread(fileName);
 
+    //TODO norms should be hashmap instead of array because p10 is second in directories after p1
     ArrayList<Double> norms = new ArrayList<>();
 
     // Sum all norms for each person
@@ -97,6 +98,66 @@ public class GaborController {
     }
 
     return null;
+  }
+
+  @RequestMapping("/create/from/stored/net")
+  public String createFromStoredNet() {
+
+    for (int i = 1; i <= CONFIG.NUMBER_OF_PERSONS; i++) {
+      String person = "p" + i;
+      new File("src/main/resources/database/" + person + "/net").mkdir();
+    }
+
+    ArrayList<String> net = this.fileService.readNetFromFile();
+
+    String path = "src/main/resources/database";
+
+    try {
+
+      File[] personDirectories = new File(path).listFiles();
+
+
+      for (File directory: personDirectories) {
+
+        String directoryName = directory.getName();
+
+        if (!directoryName.equalsIgnoreCase(".DS_Store")) {
+          File[] personPhotos = new File(path + "/" + directoryName + "/resized").listFiles();
+
+          for (File photo: personPhotos) {
+            if (!photo.getName().equalsIgnoreCase(".DS_Store")) {
+              Mat image = Highgui.imread(photo.getPath().toString());
+              System.out.println(photo.getPath().toString());
+              Mat vector = new Mat(1, net.size() - 1, CvType.CV_8UC1);
+              int i = 0;
+              for (String coordinatesString : net) {
+                String[] coordinates = coordinatesString.split("-");
+                int x = Integer.valueOf(coordinates[0]);
+                int y = Integer.valueOf(coordinates[1]);
+
+                double[] value = image.get(x, y);
+                System.out.println(x + " " + y);
+                System.out.println(i + " " + value[0]);
+                vector.put(0, i, value[0]);
+                i++;
+              }
+
+              String vectorPath = photo.getPath().toString().replaceAll("resized", "net");
+
+              System.out.println(vectorPath);
+
+              Highgui.imwrite( vectorPath, vector);
+            }
+          }
+        }
+
+      }
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    return "yey";
   }
 
   @RequestMapping("/store")

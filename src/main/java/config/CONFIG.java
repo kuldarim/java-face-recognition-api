@@ -8,5 +8,5 @@ public final class CONFIG {
   public final static Double UI_CROPPED_WIDTH = 100.0;
   public final static Double UI_CROPPED_HEIGTH = 100.0;
 
-  public final static int NUMBER_OF_PERSONS = 10;
+  public final static int NUMBER_OF_PERSONS = 50;
 }
