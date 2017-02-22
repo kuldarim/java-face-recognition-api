@@ -57,7 +57,7 @@ public class GaborController {
       }
 
       selftPercentage = (double) indexSelf / selfSize * 100;
-      otherPercentage = (double) indexOthers / othersSize * 100;
+      otherPercentage = (double) (othersSize - indexOthers) / othersSize * 100;
 
       double result = selftPercentage - otherPercentage;
       indexOthers = 0;
