@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -29,6 +27,110 @@ public class GaborController {
 
   @Autowired
   FileService fileService;
+
+  @RequestMapping("/far")
+  public String far() {
+    ArrayList<Double> selfNorms = this.fileService.readDistanceFromFile("self-distance.txt");
+    ArrayList<Double> othersNorms = this.fileService.readDistanceFromFile("others-distance.txt");
+
+    System.out.println(selfNorms.size());
+    System.out.println(othersNorms.size());
+
+    int selfSize = selfNorms.size();
+    int othersSize = othersNorms.size();
+
+
+    Double selftPercentage;
+    Double otherPercentage;
+
+    int indexSelf = 0;
+    int indexOthers = 0;
+
+    for (int i = 0; i < selfSize; i++) {
+      for (int j = 0; j < othersSize; j++) {
+        Double a = selfNorms.get(i);
+        Double b = othersNorms.get(j);
+        if ( Double.compare(a, b) > 0 ) {
+          indexSelf = i;
+          indexOthers++;
+        }
+      }
+
+      selftPercentage = (double) indexSelf / selfSize * 100;
+      otherPercentage = (double) indexOthers / othersSize * 100;
+
+      double result = selftPercentage - otherPercentage;
+      indexOthers = 0;
+
+      if (result > 0 && result < 4.0) {
+        System.out.println(selftPercentage + " % " + otherPercentage);
+        System.out.println(selfNorms.get(i));
+        break;
+      }
+    }
+
+    return "yey";
+  }
+
+  @RequestMapping("/store-distances")
+  public String storeDistances() {
+    String path = "src/main/resources/database";
+
+    ArrayList<Double> selfNorms = new ArrayList<>();
+    ArrayList<Double> othersNorms = new ArrayList<>();
+
+    try {
+      File[] personDirectories = new File(path).listFiles();
+
+      for (File directory1: personDirectories) {
+
+        for (File directory2: personDirectories) {
+
+          String directoryName1 = directory1.getName();
+          String directoryName2 = directory2.getName();
+
+          if (!directoryName1.equalsIgnoreCase(".DS_Store") && !directoryName2.equalsIgnoreCase(".DS_Store")) {
+            File[] personPhotos1 = new File(path + "/" + directoryName1 + "/net").listFiles();
+            File[] personPhotos2 = new File(path + "/" + directoryName2 + "/net").listFiles();
+
+            for (File photo1: personPhotos1) {
+              for (File photo2: personPhotos2) {
+                if (!photo1.getName().equalsIgnoreCase(".DS_Store") && !photo2.getName().equalsIgnoreCase(".DS_Store")) {
+
+                  Mat comparatorVector = Highgui.imread(photo1.getPath().toString());
+                  Mat vectorToCompare = Highgui.imread(photo2.getPath().toString());
+                  Double norm = Core.norm(vectorToCompare, comparatorVector, Core.NORM_L2);
+                  System.out.println(photo1.getPath().toString() + " " + photo2.getPath().toString() + " " + norm);
+                  if (directoryName1.equalsIgnoreCase(directoryName2)) {
+                    selfNorms.add(norm);
+                  } else {
+                    othersNorms.add(norm);
+                  }
+                }
+              }
+            }
+          }
+
+        }
+      }
+
+      Collections.sort(selfNorms);
+      Collections.sort(othersNorms);
+
+      this.fileService.storeSelfDistanceInFile(selfNorms);
+      this.fileService.storeOthersDistanceInFile(othersNorms);
+
+      System.out.println(selfNorms.size());
+      System.out.println(othersNorms.size());
+
+      return "yey";
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    return "ney";
+  }
 
   @RequestMapping("/recognise")
   public Map<String, String> resize(@RequestBody String p) {
