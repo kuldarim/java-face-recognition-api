@@ -94,27 +94,13 @@ public class FileService {
     }
   }
 
-  public void storeSelfDistanceInFile(ArrayList<Double> list) {
+  public void storeDistanceInFile(ArrayList<Double> list, String fileName) {
     try(
-      FileOutputStream f = new FileOutputStream("src/main/resources/calculated/result/self-distance.txt");
+      FileOutputStream f = new FileOutputStream("src/main/resources/calculated/result/" + fileName);
       ObjectOutput s = new ObjectOutputStream(f)
     ) {
       s.writeObject(list);
-      System.out.println("self stored succesfully!");
-    } catch (Exception ex) {
-      System.out.println(ex.toString());
-    } finally {
-
-    }
-  }
-
-  public void storeOthersDistanceInFile(ArrayList<Double> list) {
-    try(
-      FileOutputStream f = new FileOutputStream("src/main/resources/calculated/result/others-distance.txt");
-      ObjectOutput s = new ObjectOutputStream(f)
-    ) {
-      s.writeObject(list);
-      System.out.println("others stored succesfully!");
+      System.out.println(fileName + " stored succesfully!");
     } catch (Exception ex) {
       System.out.println(ex.toString());
     } finally {

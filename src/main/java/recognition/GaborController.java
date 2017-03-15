@@ -117,8 +117,8 @@ public class GaborController {
       Collections.sort(selfNorms);
       Collections.sort(othersNorms);
 
-      this.fileService.storeSelfDistanceInFile(selfNorms);
-      this.fileService.storeOthersDistanceInFile(othersNorms);
+      this.fileService.storeDistanceInFile(selfNorms, "self-distance.txt");
+      this.fileService.storeDistanceInFile(othersNorms, "others-distance.txt");
 
       System.out.println(selfNorms.size());
       System.out.println(othersNorms.size());
