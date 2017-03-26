@@ -202,6 +202,12 @@ public class GaborController {
     return null;
   }
 
+  @RequestMapping("/get/net")
+  public ArrayList<String> getNet() {
+    ArrayList<String> net = this.fileService.readNetFromFile();
+    return net;
+  }
+
   @RequestMapping("/create/from/stored/net")
   public String createFromStoredNet() {
 
