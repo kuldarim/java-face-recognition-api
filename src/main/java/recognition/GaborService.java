@@ -104,9 +104,9 @@ public class GaborService {
     //predefine parameters for Gabor kernel
     List<Double> thetas = Arrays.asList(0.0, 23.0, 45.0, 68.0, 90.0, 113.0, 135.0, 158.0);
     List<Double> lambdas = Arrays.asList(3.0, 6.0, 13.0, 28.0, 58.0);
-    Size kSize = new Size(5, 5);
+    Size kSize = new Size(100, 100);
 
-    double sigma = 20;
+    double sigma = 1;
     double gamma = 0.5;
     double psi = 0;
 

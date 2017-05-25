@@ -121,7 +121,7 @@ public class MatService {
           continue;
         }
         String personJ = "p" + j;
-        Double[][] mat = this.fileService.readMatFromFile("/mean/others/" + personI + personJ + ".txt");
+        Double[][] mat = this.fileService.readMatFromFile("calculated/mean/others/" + personI + personJ + ".txt");
         others.add(mat);
       }
     }
@@ -138,7 +138,7 @@ public class MatService {
 
     for (int i = 1; i <= CONFIG.NUMBER_OF_PERSONS; i++) {
       String person = "p" + i;
-      Double[][] mat = this.fileService.readMatFromFile("/mean/self/" + person + ".txt");
+      Double[][] mat = this.fileService.readMatFromFile("calculated/mean/self/" + person + ".txt");
       self.add(mat);
     }
 
@@ -150,8 +150,8 @@ public class MatService {
   }
 
   public void calculateDistance() {
-    Double[][] self = this.fileService.readMatFromFile("result/self-mean.txt");
-    Double[][] others = this.fileService.readMatFromFile("result/others-mean.txt");
+    Double[][] self = this.fileService.readMatFromFile("calculated/result/self-mean.txt");
+    Double[][] others = this.fileService.readMatFromFile("calculated/result/others-mean.txt");
 
     Double[][] distance = this.gaborService.calculateDistanceBetweenMatrixes(self,others);
 

@@ -21,6 +21,16 @@ public class FileService {
     }
   }
 
+  public void writeGaborsToFile(ArrayList<Mat> images, String folder, String prefix) {
+    System.out.println("@writeImagesToFile writing " + images.size() + " to "
+      + "src/main/resources/calculated/gabor/" + folder + "/"+ prefix + "index" + ".png");
+    int index = 1;
+    for (Mat image: images) {
+      Highgui.imwrite("src/main/resources/calculated/gabor/" + folder + "/"+ prefix + index + ".png", image);
+      index++;
+    }
+  }
+
   public ArrayList<Mat> readImages(String folder, String imageNamePrefix, int imageCount) {
     ArrayList<Mat> images = new ArrayList<>();
     System.out.println("@readImages reading images from src/main/resources/database/"
@@ -66,6 +76,31 @@ public class FileService {
     }
   }
 
+  public void storeVarianceInFile(String fileName, Double[][] mat) {
+    try(
+      FileOutputStream f = new FileOutputStream("src/main/resources/gabor/" + fileName);
+      ObjectOutput s = new ObjectOutputStream(f)
+    ) {
+      s.writeObject(mat);
+      System.out.println(fileName + " stored succesfully!");
+    } catch (Exception ex) {
+      System.out.println(ex.toString());
+    } finally {
+
+    }
+  }
+
+  public ArrayList<Double[][]> readVarianceMatsByPerson(String gaborIndex, String person) {
+    ArrayList<Double[][]> varianceMats = new ArrayList<>();
+
+    for (int i = 1; i<= CONFIG.NUMBER_OF_IMAGES; i++) {
+      Double[][] mat = this.readMatFromFile("gabor/" + gaborIndex + "/variance/" + person + i + ".txt");
+      varianceMats.add(mat);
+    }
+
+    return varianceMats;
+  }
+
   public void storeMatFile(String fileName, Double[][] mat) {
     try(
       FileOutputStream f = new FileOutputStream("src/main/resources/database/" + fileName);
@@ -80,9 +115,9 @@ public class FileService {
     }
   }
 
-  public void storeNetInFile(ArrayList<String> list) {
+  public void storeNetInFile(ArrayList<String> list, String name) {
     try(
-      FileOutputStream f = new FileOutputStream("src/main/resources/calculated/result/net.txt");
+      FileOutputStream f = new FileOutputStream("src/main/resources/calculated/result/" + name);
       ObjectOutput s = new ObjectOutputStream(f)
     ) {
       s.writeObject(list);
@@ -148,7 +183,7 @@ public class FileService {
     ArrayList<Double[][]> varianceMats = new ArrayList<>();
 
     for (int i = 1; i<= CONFIG.NUMBER_OF_IMAGES; i++) {
-      Double[][] mat = this.readMatFromFile("variance/" + person + i + ".txt");
+      Double[][] mat = this.readMatFromFile("calculated/variance/" + person + i + ".txt");
       varianceMats.add(mat);
     }
 
@@ -156,7 +191,7 @@ public class FileService {
   }
 
   public Double[][] readMatFromFile(String fileName) {
-    try(FileInputStream in = new FileInputStream("src/main/resources/calculated/" + fileName);
+    try(FileInputStream in = new FileInputStream("src/main/resources/" + fileName);
         ObjectInputStream s = new ObjectInputStream(in)) {
       Double[][] mat = (Double[][])s.readObject();
       return mat;

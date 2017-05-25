@@ -271,7 +271,7 @@ public class GaborController {
   @RequestMapping("/store")
   public String store(@RequestBody ArrayList<String> net) {
 
-    this.fileService.storeNetInFile(net);
+    this.fileService.storeNetInFile(net, "net.txt");
 
     for (int i = 1; i <= CONFIG.NUMBER_OF_PERSONS; i++) {
       String person = "p" + i;
@@ -330,7 +330,7 @@ public class GaborController {
 
   @RequestMapping("/distance")
   public String distance() {
-    Double[][] distance = this.fileService.readMatFromFile("/distance/self-others.txt");
+    Double[][] distance = this.fileService.readMatFromFile("calculated/distance/self-others.txt");
 
     JsonArray parentJsonArray = new JsonArray();
 
@@ -365,7 +365,7 @@ public class GaborController {
 
   @RequestMapping("/print/self")
    public String printSelf() {
-    Double[][] self = this.fileService.readMatFromFile("/result/self-mean.txt");
+    Double[][] self = this.fileService.readMatFromFile("calculated/result/self-mean.txt");
 
     this.printMatToConsole(self);
 
@@ -374,7 +374,7 @@ public class GaborController {
 
   @RequestMapping("/print/others")
   public String printOthers() {
-    Double[][] self = this.fileService.readMatFromFile("/result/others-mean.txt");
+    Double[][] self = this.fileService.readMatFromFile("calculated/result/others-mean.txt");
 
     this.printMatToConsole(self);
 
@@ -394,6 +394,8 @@ public class GaborController {
 
     return "done";
   }
+
+
 
   private void printMatToConsole(Double[][] mat) {
     for(Double[] row: mat) {
